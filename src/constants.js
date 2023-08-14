@@ -10,7 +10,7 @@ export const jsQuizz = {
         "Impiegava segnali elettrici per la comunicazione A",
       ],
       type: "MCQs",
-      correctAnswer: "E' stato inventato prima del telegrafo elettrico",
+      correctAnswer: 1,
     },
     {
       question: "What is ReactJS?",
@@ -21,20 +21,20 @@ export const jsQuizz = {
         "None of the above",
       ],
       type: "MCQs",
-      correctAnswer: "User Interface framework",
+      correctAnswer: 1,
     },
     {
       question:
         "Identify the one which is used to pass data to components from outside",
       choices: ["Render with arguments", "setState", "PropTypes", "props"],
       type: "MCQs",
-      correctAnswer: "props",
+      correctAnswer: 1,
     },
     {
       question: "In which language is React.js written?",
       choices: ["Python", "Java", "C#", "JavaScript"],
       type: "MCQs",
-      correctAnswer: "JavaScript",
+      correctAnswer: 1,
     },
     {
       question: "What is Babel?",
@@ -45,7 +45,7 @@ export const jsQuizz = {
         "None of the above",
       ],
       type: "MCQs",
-      correctAnswer: "JavaScript compiler",
+      correctAnswer: 1,
     },
   ],
 };

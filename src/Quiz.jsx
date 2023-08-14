@@ -1,46 +1,50 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { resultInitalState } from "./constants";
 
 const Quiz = ({ questions }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answerIdx, setAnswerIdx] = useState(null);
-  const [answer, setAnswer] = useState(null);
   const [result, setResult] = useState(resultInitalState);
   const [showResult, setShowResult] = useState(false);
+  const [wrongAnswerSelected, setWrongAnswerSelected] = useState(false);
 
   const { question, choices, correctAnswer } = questions[currentQuestion];
 
-  const onAnwswerClick = (answer, index) => {
+  const onAnswerClick = (index) => {
     setAnswerIdx(index);
-    if (answer === correctAnswer) {
-      setAnswer(true);
-    } else {
-      setAnswer(false);
-    }
   };
 
   const onClickNext = () => {
     setAnswerIdx(null);
-    setResult((prev) =>
-      answer
-        ? {
-            ...prev,
-            score: prev.score + 5,
-            correctAnswers: prev.correctAnswers + 1,
-          }
-        : {
-            ...prev,
-            wrongAnswers: prev.wrongAnswers + 1,
-          }
-    );
-
+  
+    if (answerIdx !== null) {
+      const selectedChoice = choices[answerIdx];
+      const correctAnswerIndex = correctAnswer - 1; // Trasforma in 0-based index
+      if (selectedChoice === choices[correctAnswerIndex]) {
+        setResult((prev) => ({
+          ...prev,
+          score: prev.score + 5,
+          correctAnswers: prev.correctAnswers + 1,
+        }));
+      } else {
+        setWrongAnswerSelected(true); // Imposta lo stato di wrongAnswerSelected a true quando c'è una risposta sbagliata
+        setResult((prev) => ({
+          ...prev,
+          wrongAnswers: prev.wrongAnswers + 1,
+        }));
+      }
+    }
+  
     if (currentQuestion !== questions.length - 1) {
       setCurrentQuestion((prev) => prev + 1);
     } else {
       setCurrentQuestion(0);
       setShowResult(true);
     }
+  
+    setWrongAnswerSelected(false); // Reimposta lo stato di wrongAnswerSelected a false
   };
+  
 
   const onTryAgain = () => {
     setResult(resultInitalState);
@@ -57,9 +61,13 @@ const Quiz = ({ questions }) => {
           <ul>
             {choices.map((choice, index) => (
               <li
-                onClick={() => onAnwswerClick(choice, index)}
+                onClick={() => onAnswerClick(index)}
                 key={choice}
-                className={answerIdx === index ? "selected-answer" : null}
+                className={`${answerIdx === index ? "selected-answer" : ""} ${
+                  wrongAnswerSelected && index === correctAnswer - 1
+                    ? "correct-answer-highlight"
+                    : ""
+                }`}
               >
                 {choice}
               </li>

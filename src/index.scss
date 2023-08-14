@@ -65,6 +65,11 @@ body {
       border: 1px solid $primary;
       color: white;
     }
+    .correct-answer-highlight {
+      background-color: #a1fca1; /* Colore di sfondo per la risposta corretta quando evidenziata */
+      /* Altri stili desiderati */
+    }
+    
   }
 
   .footer {
