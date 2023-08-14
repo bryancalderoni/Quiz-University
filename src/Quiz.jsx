@@ -7,6 +7,7 @@ const Quiz = ({ questions }) => {
   const [result, setResult] = useState(resultInitalState);
   const [showResult, setShowResult] = useState(false);
   const [wrongAnswerSelected, setWrongAnswerSelected] = useState(false);
+  const [responses, setResponses] = useState([]);
 
   const { question, choices, correctAnswer } = questions[currentQuestion];
 
@@ -16,10 +17,10 @@ const Quiz = ({ questions }) => {
 
   const onClickNext = () => {
     setAnswerIdx(null);
-  
+
     if (answerIdx !== null) {
       const selectedChoice = choices[answerIdx];
-      const correctAnswerIndex = correctAnswer - 1; // Trasforma in 0-based index
+      const correctAnswerIndex = correctAnswer - 1;
       if (selectedChoice === choices[correctAnswerIndex]) {
         setResult((prev) => ({
           ...prev,
@@ -27,28 +28,38 @@ const Quiz = ({ questions }) => {
           correctAnswers: prev.correctAnswers + 1,
         }));
       } else {
-        setWrongAnswerSelected(true); // Imposta lo stato di wrongAnswerSelected a true quando c'è una risposta sbagliata
+        setWrongAnswerSelected(true);
         setResult((prev) => ({
           ...prev,
           wrongAnswers: prev.wrongAnswers + 1,
         }));
       }
     }
-  
+
+    const selectedAnswer = answerIdx !== null ? choices[answerIdx] : "No answer selected";
+    const correctAnswerText = choices[correctAnswer - 1];
+    const response = {
+      question,
+      selectedAnswer,
+      correctAnswer: correctAnswerText,
+    };
+
+    setResponses((prevResponses) => [...prevResponses, response]);
+
     if (currentQuestion !== questions.length - 1) {
       setCurrentQuestion((prev) => prev + 1);
     } else {
       setCurrentQuestion(0);
       setShowResult(true);
     }
-  
-    setWrongAnswerSelected(false); // Reimposta lo stato di wrongAnswerSelected a false
+
+    setWrongAnswerSelected(false);
   };
-  
 
   const onTryAgain = () => {
     setResult(resultInitalState);
     setShowResult(false);
+    setResponses([]);
   };
 
   return (
@@ -61,7 +72,12 @@ const Quiz = ({ questions }) => {
           <ul>
             {choices.map((choice, index) => (
               <li
-                onClick={() => onAnswerClick(index)}
+                onClick={() => {
+                  if (!showResult) {
+                    onAnswerClick(index);
+                    setWrongAnswerSelected(index !== correctAnswer - 1);
+                  }
+                }}
                 key={choice}
                 className={`${answerIdx === index ? "selected-answer" : ""} ${
                   wrongAnswerSelected && index === correctAnswer - 1
@@ -94,6 +110,22 @@ const Quiz = ({ questions }) => {
           <p>
             Wrong Answers: <span>{result.wrongAnswers}</span>
           </p>
+          <div>
+            <h4>Responses:</h4>
+            <ul>
+              {responses.map((response, index) => (
+                <li key={index}>
+                  <p>
+                   <span className="result-question">Question: {response.question}</span>
+                    <br />
+                    <span className="result-answer">Your Answer: {response.selectedAnswer}</span>
+                    <br />
+                    <span className="result-correct-answer">Correct Answer: {response.correctAnswer}</span>
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
           <button onClick={onTryAgain}>Try again</button>
         </div>
       )}

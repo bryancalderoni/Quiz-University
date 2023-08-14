@@ -16,6 +16,8 @@ body {
   height: 100vh;
 }
 
+
+
 .quiz-container {
   width: 500px;
   background: $bg;
@@ -110,9 +112,20 @@ body {
       font-weight: 500;
 
       span {
-        color: $primary;
-        font-size: 22px;
+        color: white;
+        font-size: 14px;
+
+       
       }
+    }
+    .result-question{
+      color: white;
+    }
+    .result-answer{
+      color: $primary
+    }
+    .result-correct-answer{
+      color: green;
     }
   }
 }
