@@ -2,15 +2,15 @@ export const jsQuizz = {
   questions: [
     {
       question:
-        "Which of the following is used in React.js to increase performance?",
+        "Il telegrafo ottico:",
       choices: [
-        "Virtual DOM",
-        "Original DOM",
-        "Both A and B",
-        "None of the above",
+        "E' stato inventato prima del telegrafo elettrico",
+        "E' stato inventato dopo il telegrafo elettrico",
+        "Utilizzava una fibra ottica per la trasmissione",
+        "Impiegava segnali elettrici per la comunicazione A",
       ],
       type: "MCQs",
-      correctAnswer: "Virtual DOM",
+      correctAnswer: "E' stato inventato prima del telegrafo elettrico",
     },
     {
       question: "What is ReactJS?",
